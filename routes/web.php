@@ -12,17 +12,37 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('PostIndex');
 });
 
 Route::group(['prefix' => 'posts'], function () {
-    Route::get('/', 'PostController@index')->name('PostsIndex');
-    Route::get('/{id}', 'PostController@view')->name('PostsView');
-    Route::get('/category/{id}', 'PostController@indexByCategory')->name('CategoryPostsIndex');
+    Route::get('/', 'PostController@index')->name('PostIndex');
+    Route::get('/{id}', 'PostController@view')->name('PostView');
+    Route::get('/category/{id}', 'PostController@indexByCategory')->name('CategoryPostIndex');
 });
 
-Route::group(['prefix' => 'admin'], function () {
-    Route::get('/', 'PostController@index')->name('AdminPostsIndex');
-    Route::get('/{id}', 'PostController@view')->name('AdminPostsView');
-    Route::get('/category/{id}', 'PostController@indexByCategory')->name('AdminCategoryPostsIndex');
+Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'Admin.', 'middleware' => 'auth'], function () {
+    Route::get('/dashboard', 'AdminController@dashboard')->name('Dashboard');
+    
+    Route::group(['prefix' => '/posts'], function () {
+        Route::get('/', 'PostController@index')->name('PostIndex');
+        Route::get('/add', 'PostController@add')->name('AddPost');
+        Route::post('/create', 'PostController@create')->name('CreatePost');
+        Route::get('/edit/{id}', 'PostController@edit')->name('EditPost');
+        Route::put('/update/{id}', 'PostController@update')->name('UpdatePost');
+        Route::get('/delete/{id}', 'PostController@delete')->name('DeletePost');
+    });
+
+    Route::group(['prefix' => '/categories'], function () {
+        Route::get('/', 'CategoryController@index')->name('CategoryIndex');
+        Route::get('/add', 'CategoryController@add')->name('AddCategory');
+        Route::post('/create', 'CategoryController@create')->name('CreateCategory');
+        Route::get('/edit/{id}', 'CategoryController@edit')->name('EditCategory');
+        Route::put('/update/{id}', 'CategoryController@update')->name('UpdateCategory');
+        Route::get('/delete/{id}', 'CategoryController@deleteCategory')->name('DeleteCategory');
+    });
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
