@@ -1,9 +1,9 @@
 @extends('layouts.master')
 
 @section('content')
-    <div class="row justify-content-md-center">
-        <div class="col">
-            @foreach ($posts as $post)
+    <div class="row mt-3 justify-content-center">
+        @foreach ($posts as $post)
+            <div class="col-md-3 m-3">            
                 <div class="card" style="width: 18rem;">
                     <img src="{{$post->image_url}}" class="card-img-top" alt="...">
                     <div class="card-body">
@@ -12,7 +12,7 @@
                         <a href="{{route('PostView', $post->id)}}" class="btn btn-primary">Read more</a>
                     </div>
                 </div>
-            @endforeach
-        </div>
+            </div>
+        @endforeach
     </div>
 @stop

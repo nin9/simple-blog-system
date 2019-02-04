@@ -12,7 +12,7 @@
 
 <div class="form-group">
     <label for="category_id">Category <span>*</span></label>
-    {{ Form::select('category_id', $categories->pluck('name', 'id'), (isset($post->category_id)) ? $post->category_id : old('category_id'), ['placeholder' => 'Category', 'required' => 'required', 'class' => 'form-control ' . ($errors->has('category_id') ? 'redborder' : '') ]) }}
+    {{ Form::select('category_id', $admin_categories->pluck('name', 'id'), (isset($post->category_id)) ? $post->category_id : old('category_id'), ['placeholder' => 'Category', 'required' => 'required', 'class' => 'form-control ' . ($errors->has('category_id') ? 'redborder' : '') ]) }}
     <small class="text-danger">{{ $errors->has('category_id') ? $errors->first('category_id') : '' }}</small>
 </div>
 

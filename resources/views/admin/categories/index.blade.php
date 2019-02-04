@@ -18,7 +18,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($categories as $category)
+                    @foreach ($admin_categories as $category)
                         <tr>
                             <td>{{$category->name}}</td>
                             <td>{{count($category->posts)}}</td>
