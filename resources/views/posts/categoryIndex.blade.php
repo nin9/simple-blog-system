@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
-    <div class="row">
+    <div class="row mt-3">
         <h3 class="text-center">{{$category->name}}</h3>
     </div>
     <div class="row justify-content-md-center">
@@ -12,7 +12,7 @@
                     <div class="card-body">
                         <h5 class="card-title">{{$post->title}}</h5> <span class="badge badge-secondary">{{$post->category->name}}</span>
                         <p class="card-text text-truncate">{{$post->body}}</p>
-                        <a href="{{route('PostsView', $post->id)}}" class="btn btn-primary">Read more</a>
+                        <a href="{{route('PostView', $post->id)}}" class="btn btn-primary">Read more</a>
                     </div>
                 </div>
             @endforeach

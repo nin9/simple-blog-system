@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
-    <div class="row justify-content-md-center">
+    <div class="row mt-3 justify-content-md-center">
         <div class="col">
             @if(!empty($post->image_url))
                 <img src={{$post->image_url}} />
