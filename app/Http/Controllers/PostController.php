@@ -28,7 +28,7 @@ class PostController extends Controller
 
         }
     }
-
+    
     public function indexByCategory($id){
         try{
             $category = Category::find($id);
