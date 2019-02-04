@@ -39,7 +39,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'Admin.', 'mi
         Route::post('/create', 'CategoryController@create')->name('CreateCategory');
         Route::get('/edit/{id}', 'CategoryController@edit')->name('EditCategory');
         Route::put('/update/{id}', 'CategoryController@update')->name('UpdateCategory');
-        Route::get('/delete/{id}', 'CategoryController@deleteCategory')->name('DeleteCategory');
+        Route::get('/delete/{id}', 'CategoryController@delete')->name('DeleteCategory');
     });
 });
 
