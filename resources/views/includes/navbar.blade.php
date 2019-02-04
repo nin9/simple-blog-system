@@ -15,12 +15,9 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         @if(count($categories)> 0)
                         @foreach($categories as $cat)
-                          <a href="{{ route('CategoryPostsIndex', $cat->id) }}">{{$cat->name}}</a>
+                          <a class="dropdown-item" href="{{ route('CategoryPostsIndex', $cat->id) }}">{{$cat->name}}</a>
                         @endforeach
                       @endif
-                    {{-- <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a> --}}
                 </div>
             </li>
         </ul>
