@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Post;
+use Flashy;
 
 class AdminController extends Controller
 {
@@ -16,7 +17,8 @@ class AdminController extends Controller
             return view('admin.dashboard', compact('post_count', 'category_count'));
         }
         catch(\Exception $e){
-
+            Flashy::error('An Error Occurred !');
+            return redirect()->back();
         }
     }
 }

@@ -5,16 +5,18 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use Flashy;
 
 class CategoryController extends Controller
 {
     public function index(){
         try{
-            $categories = Category::all();
-            return view('admin.categories.index', compact('categories'));
+            $admin_categories = Category::all();
+            return view('admin.categories.index', compact('admin_categories'));
         }
         catch(\Exception $e){
-            
+            Flashy::error('An Error Occurred !');
+            return redirect()->back();
         }
     }
 
@@ -23,7 +25,8 @@ class CategoryController extends Controller
             return view('admin.categories.add');   
         }
         catch(\Exception $e){
-        
+            Flashy::error('An Error Occurred !');
+            return redirect()->back();
         }
     }
 
@@ -34,10 +37,12 @@ class CategoryController extends Controller
             $category->name = $request->name;
             $category->save();
 
+            Flashy::success('Category created successfully');
             return redirect()->route('Admin.CategoryIndex');   
         }
         catch(\Exception $e){
-            
+            Flashy::error('An Error Occurred !');
+            return redirect()->back();
         }
     }
     
@@ -49,7 +54,8 @@ class CategoryController extends Controller
             return view('admin.categories.edit', compact('category'));   
         }
         catch(\Exception $e){
-            return view('errors.404');
+            Flashy::error('An Error Occurred !');
+            return redirect()->back();
         }
     }
 
@@ -60,10 +66,12 @@ class CategoryController extends Controller
             $category->name = $request->name;
             $category->update();
 
+            Flashy::success('Category updated successfully.');
             return redirect()->route('Admin.CategoryIndex');   
         }
         catch(\Exception $e){
-        
+            Flashy::error('An Error Occurred !');
+            return redirect()->back();
         }
     }
 
@@ -72,9 +80,13 @@ class CategoryController extends Controller
             $category = Category::find($id);
             $category->posts()->delete();
             $category->delete();
+
+            Flashy::success('Category deleted successfully');
             return redirect()->route('Admin.CategoryIndex');   
         }
         catch(\Exception $e){
+            Flashy::error('An Error Occurred !');
+            return redirect()->back();
         }
     }
 }

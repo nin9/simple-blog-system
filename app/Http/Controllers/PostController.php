@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Category;
+use Flashy;
 
 class PostController extends Controller
 {
@@ -14,7 +15,8 @@ class PostController extends Controller
             return view('posts.index', compact('posts'));
         }
         catch(\Exception $e){
-            
+            Flashy::error('An Error Occurred !');
+            return redirect()->back();
         }
     }
 
@@ -22,11 +24,14 @@ class PostController extends Controller
         try{
             $post = Post::find($id);
             if(empty($post))
-                return view('errors.404');
+                //return view('errors.404');
+            throw new Exception("Error Processing Request");
+            
             return view('posts.view', compact('post'));   
         }
         catch(\Exception $e){
-            
+            Flashy::error('An Error Occurred !');
+            return redirect()->back();
         }
     }
     
@@ -38,7 +43,8 @@ class PostController extends Controller
             return view('posts.categoryIndex', compact('category'));    
         }
         catch(\Exception $e){
-
+            Flashy::error('An Error Occurred !');
+            return redirect()->back();
         }
     }
 }
