@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Post;
 use Flashy;
+use App\Exceptions\InternalErrorException;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -32,16 +34,24 @@ class PostController extends Controller
 
     public function create(Request $request){
         try{
+
             $post = new Post();
-            
+
+            if(!empty($request->image_url)){
+                $image_url = $this->saveFile($request->image_url, 'images');
+                $post->image_url = $image_url;
+            }
+
             $post->title = $request->title;
             $post->body = $request->body;
             $post->category_id = $request->category_id;
             $post->save();
+
+
             Flashy::success('Post created successfully');
             return redirect()->route('PostView', $post->id);   
         }
-        catch(\Exception $e){
+        catch(\Exception $e){ throw $e;
             Flashy::error('An Error Occurred !');
             return redirect()->back();
         }
@@ -64,6 +74,11 @@ class PostController extends Controller
         try{
             $post = Post::find($id);
             
+            if(!empty($request->image_url)){
+                $image_url = $this->saveFile($request->image_url, 'images');
+                $post->image_url = $image_url;
+            }
+
             $post->title = $request->title;
             $post->body = $request->body;
             $post->category_id = $request->category_id;
@@ -87,5 +102,12 @@ class PostController extends Controller
             Flashy::error('An Error Occurred !');
             return redirect()->back();
         }
+    }
+
+    private function saveFile($file, $folder=''){
+        $file_name = $file->getClientOriginalName();
+        
+        if(Storage::disk('public')->put($folder.'/'.$file_name, file_get_contents($file)))
+            return Storage::url($folder.'/'.$file_name);
     }
 }

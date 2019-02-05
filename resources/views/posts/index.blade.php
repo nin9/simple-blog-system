@@ -1,11 +1,11 @@
 @extends('layouts.master')
 
 @section('content')
-    <div class="row mt-3 justify-content-center">
+    <div class="row mt-3">
         @foreach ($posts as $post)
-            <div class="col-md-3 m-3">            
+            <div class="col-md-3 m-3 d-flex align-items-stretch">            
                 <div class="card" style="width: 18rem;">
-                    <img src="{{$post->image_url}}" class="card-img-top" alt="...">
+                    <img src="{{ asset($post->image_url ? $post->image_url : 'images/no_image.png') }}" class="card-img-top img-fluid" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">{{$post->title}}</h5> <span class="badge badge-secondary">{{$post->category->name}}</span>
                         <p class="card-text text-truncate">{{$post->body}}</p>
