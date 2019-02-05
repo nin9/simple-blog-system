@@ -12,6 +12,7 @@
             <table id="posts" class="table table-striped table-bordered" style="width:100%">
                 <thead>
                     <tr>
+                        <th>Id</th>
                         <th>Name</th>
                         <th>Number Of Posts</th>
                         <th>Actions</th>
@@ -20,6 +21,7 @@
                 <tbody>
                     @foreach ($admin_categories as $category)
                         <tr>
+                            <td>{{$category->id}}</td>
                             <td>{{$category->name}}</td>
                             <td>{{count($category->posts)}}</td>
                             <td>

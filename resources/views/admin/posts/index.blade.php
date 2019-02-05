@@ -12,6 +12,7 @@
             <table id="posts" class="table table-striped table-bordered" style="width:100%">
                 <thead>
                     <tr>
+                        <th>Id</th>
                         <th>Title</th>
                         <th>Category</th>
                         <th>Actions</th>
@@ -20,6 +21,7 @@
                 <tbody>
                     @foreach ($posts as $post)
                         <tr>
+                            <td>{{$post->id}}</td>
                             <td>{{$post->title}}</td>
                             <td>{{$post->category->name}}</td>
                             <td>
