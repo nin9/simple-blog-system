@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Flashy;
+use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
@@ -32,6 +33,14 @@ class CategoryController extends Controller
 
     public function create(Request $request){
         try{
+            $errors = Validator::make($request->all(), [
+                'name' => 'required|string|unique:categories'
+            ]);
+            if ($errors->fails()) {
+                $request->flash();
+                return redirect()->route('Admin.AddCategory')->withErrors($errors)->withInput($request->all());
+            }
+
             $category = new Category();
             
             $category->name = $request->name;
@@ -61,6 +70,15 @@ class CategoryController extends Controller
 
     public function update($id, Request $request){
         try{
+
+            $errors = Validator::make($request->all(), [
+                'name' => 'required|string'
+            ]);
+            if ($errors->fails()) {
+                $request->flash();
+                return redirect()->route('Admin.EditCategory', $id)->withErrors($errors)->withInput($request->all());
+            }
+
             $category = Category::find($id);
             
             $category->name = $request->name;

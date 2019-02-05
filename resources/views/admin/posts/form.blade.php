@@ -26,12 +26,14 @@
 <div class="form-group">
     <label for="title">Title <span>*</span></label>
     <input type="text" name="title" class="form-control" required value="@if(isset($post)){{$post->title}}@else{{old('title')}}@endif">
+    <small class="text-danger">{{ $errors->has('title') ? $errors->first('title') : '' }}</small>
 </div>
 
 <div class="form-group">
     <label for="body">Body <span>*</span></label>
     <textarea name="body" class="form-control" required>@if(isset($post)){{$post->body}}@else{{old('body')}}@endif
     </textarea>
+    <small class="text-danger">{{ $errors->has('body') ? $errors->first('body') : '' }}</small>
 </div>
 
 

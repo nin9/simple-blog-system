@@ -8,6 +8,7 @@ use App\Models\Post;
 use Flashy;
 use App\Exceptions\InternalErrorException;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
@@ -34,6 +35,17 @@ class PostController extends Controller
 
     public function create(Request $request){
         try{
+
+            $errors = Validator::make($request->all(), [
+                'title' => 'required|string',
+                'body' => 'required|string',
+                'category_id' => 'required|numeric|exists:categories,id',
+                'image_url' => 'image',
+                ]);
+            if ($errors->fails()) {
+                $request->flash();
+                return redirect()->route('Admin.AddCategory')->withErrors($errors)->withInput($request->all());
+            }
 
             $post = new Post();
 
@@ -72,6 +84,18 @@ class PostController extends Controller
 
     public function update($id, Request $request){
         try{
+
+            $errors = Validator::make($request->all(), [
+                'title' => 'required|string',
+                'body' => 'required|string',
+                'category_id' => 'required|numeric|exists:categories,id',
+                'image_url' => 'image',
+                ]);
+            if ($errors->fails()) {
+                $request->flash();
+                return redirect()->route('Admin.AddCategory')->withErrors($errors)->withInput($request->all());
+            }
+
             $post = Post::find($id);
             
             if(!empty($request->image_url)){
