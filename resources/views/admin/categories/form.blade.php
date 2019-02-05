@@ -1,4 +1,4 @@
-<div class="form-group">
+<div class="form-group mt-3">
     <label for="name">Name <span>*</span></label>
     <input type="text" name="name" class="form-control" required value="@if(isset($category)){{$category->name}}@else{{old('name')}}@endif">
 </div>

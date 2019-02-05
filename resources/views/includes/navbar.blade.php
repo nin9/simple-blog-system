@@ -6,11 +6,11 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
             <li class="nav-item active">
-                <a class="nav-link" href="{{ route('PostIndex') }}">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="{{ route('PostIndex') }}"><i class="fa fa-home fa-xs"></i> Home</a>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Categories
+                   <i class="fas fa-tags fa-xs"></i> Categories
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         @if(count($categories)> 0)
