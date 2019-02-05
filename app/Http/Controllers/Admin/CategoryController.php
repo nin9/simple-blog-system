@@ -12,8 +12,7 @@ class CategoryController extends Controller
 {
     public function index(){
         try{
-            $admin_categories = Category::all();
-            return view('admin.categories.index', compact('admin_categories'));
+            return view('admin.categories.index');
         }
         catch(\Exception $e){
             Flashy::error('An Error Occurred !');
