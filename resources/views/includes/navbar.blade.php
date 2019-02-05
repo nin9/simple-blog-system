@@ -28,13 +28,13 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     @if(Auth::user())
-                        <a class="dropdown-item" href="{{route('Admin.Dashboard')}}">Dashboard</a>
-                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('frm-logout').submit();">Logout</a>
+                        <a class="dropdown-item" href="{{route('Admin.Dashboard')}}"><i class="fa fa-tachometer-alt fa-xs"></i> Dashboard</a>
+                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('frm-logout').submit();"><i class="fas fa-sign-out-alt fa-xs"></i> Logout</a>
                         <form id="frm-logout" action="{{ route('logout') }}" method="POST" style="display: none;">
                             {{ csrf_field() }}
                         </form>
                     @else
-                        <a class="dropdown-item" href="{{route('login')}}">Login</a>
+                        <a class="dropdown-item" href="{{route('login')}}"><i class="fas fa-sign-in-alt fa-xs"></i> Login</a>
                     @endif
                 </div>
             </li>
