@@ -10,6 +10,13 @@
             .edit {color: #4dabf7}
             .delete {color: #df2464}
             .icon {padding: 0.2rem}
+            .text-limit {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 3;
+                -webkit-box-orient: vertical; 
+            }
         </style>
     </head>
     <body>
