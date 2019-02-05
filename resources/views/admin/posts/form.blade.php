@@ -6,19 +6,19 @@
         </div>
         <div class="input-group mt-3 col-sm-10">
             <div class="custom-file">
-                <input type="file" accept="image/*" name="image_url" class="custom-file-input @if($errors->has('image_url')) redborder @endif" id="image_url" value="{{old('image_url')}}">
-                <label class="custom-file-label" for="image_url">Choose image</label>
+                <input type="file" accept="image/*" name="image" class="custom-file-input @if($errors->has('image')) redborder @endif" id="image" value="{{old('image')}}">
+                <label class="custom-file-label" for="image">Choose image</label>
             </div>
-            <small class="text-danger">{{ $errors->has('image_url') ? $errors->first('image_url') : '' }}</small>
+            <small class="text-danger">{{ $errors->has('image') ? $errors->first('image') : '' }}</small>
         </div>
     </div>
 @else
     <div class="input-group mt-3 form-group">
         <div class="custom-file">
-            <input type="file" name="image_url" accept="image/*" class="custom-file-input @if($errors->has('image_url')) redborder @endif" id="image_url" value="{{old('image_url')}}">
-            <label class="custom-file-label" for="image_url">Choose image</label>
+            <input type="file" name="image" accept="image/*" class="custom-file-input @if($errors->has('image')) redborder @endif" id="image" value="{{old('image')}}">
+            <label class="custom-file-label" for="image">Choose image</label>
         </div>
-        <small class="text-danger">{{ $errors->has('image_url') ? $errors->first('image_url') : '' }}</small>
+        <small class="text-danger">{{ $errors->has('image') ? $errors->first('image') : '' }}</small>
     </div>
 @endif
 
@@ -49,7 +49,6 @@
 
 @section('scripts')
 <script>
-    $('textarea').autoResize();
     $('.custom-file-input').on('change', function() { 
         let fileName = $(this).val().split('\\').pop(); 
         $(this).next('.custom-file-label').addClass("selected").html(fileName); 

@@ -40,17 +40,17 @@ class PostController extends Controller
                 'title' => 'required|string',
                 'body' => 'required|string',
                 'category_id' => 'required|numeric|exists:categories,id',
-                'image_url' => 'image',
+                'image' => 'image|max:5000',
                 ]);
             if ($errors->fails()) {
                 $request->flash();
-                return redirect()->route('Admin.AddCategory')->withErrors($errors)->withInput($request->all());
+                return redirect()->route('Admin.AddPost')->withErrors($errors)->withInput($request->all());
             }
 
             $post = new Post();
 
-            if(!empty($request->image_url)){
-                $image_url = $this->saveFile($request->image_url, 'images');
+            if(!empty($request->image)){
+                $image_url = $this->saveFile($request->image, 'images');
                 $post->image_url = $image_url;
             }
 
@@ -84,22 +84,22 @@ class PostController extends Controller
 
     public function update($id, Request $request){
         try{
-
+            
             $errors = Validator::make($request->all(), [
                 'title' => 'required|string',
                 'body' => 'required|string',
                 'category_id' => 'required|numeric|exists:categories,id',
-                'image_url' => 'image',
+                'image' => 'image|max:5000',
                 ]);
             if ($errors->fails()) {
                 $request->flash();
-                return redirect()->route('Admin.AddCategory')->withErrors($errors)->withInput($request->all());
+                return redirect()->route('Admin.EditPost', $id)->withErrors($errors)->withInput($request->all());
             }
 
             $post = Post::find($id);
             
-            if(!empty($request->image_url)){
-                $image_url = $this->saveFile($request->image_url, 'images');
+            if(!empty($request->image)){
+                $image_url = $this->saveFile($request->image, 'images');
                 $post->image_url = $image_url;
             }
 
