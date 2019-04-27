@@ -7,9 +7,17 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Flashy;
 use Illuminate\Support\Facades\Validator;
+use App\Repositories\Category\CategoryInterface;
 
 class CategoryController extends Controller
 {
+
+    public $categoryRepo;
+
+    public function __construct(CategoryInterface $categoryRepo){
+        $this->categoryRepo = $categoryRepo;
+    }
+
     public function index(){
         try{
             return view('admin.categories.index');
@@ -39,16 +47,14 @@ class CategoryController extends Controller
                 $request->flash();
                 return redirect()->route('Admin.AddCategory')->withErrors($errors)->withInput($request->all());
             }
-
-            $category = new Category();
             
-            $category->name = $request->name;
-            $category->save();
+            $category = $this->categoryRepo->create($request->name);
 
             Flashy::success('Category created successfully');
             return redirect()->route('Admin.CategoryIndex');   
         }
         catch(\Exception $e){
+            throw $e;
             Flashy::error('An Error Occurred !');
             return redirect()->back();
         }
@@ -56,7 +62,7 @@ class CategoryController extends Controller
     
     public function edit($id){
         try{
-            $category = Category::find($id);
+            $category =  $this->categoryRepo->find($id);
             if(empty($category))
                 return view('errors.404');
             return view('admin.categories.edit', compact('category'));   
@@ -78,10 +84,7 @@ class CategoryController extends Controller
                 return redirect()->route('Admin.EditCategory', $id)->withErrors($errors)->withInput($request->all());
             }
 
-            $category = Category::find($id);
-            
-            $category->name = $request->name;
-            $category->update();
+            $category = $this->categoryRepo->update($id, $request->name);
 
             Flashy::success('Category updated successfully.');
             return redirect()->route('Admin.CategoryIndex');   
@@ -94,10 +97,7 @@ class CategoryController extends Controller
 
     public function delete($id){
         try{
-            $category = Category::find($id);
-            $category->posts()->delete();
-            $category->delete();
-
+            $this->categoryRepo->delete($id);
             Flashy::success('Category deleted successfully');
             return redirect()->route('Admin.CategoryIndex');   
         }

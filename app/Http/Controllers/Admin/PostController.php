@@ -9,12 +9,19 @@ use Flashy;
 use App\Exceptions\InternalErrorException;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use App\Repositories\Post\PostInterface;
 
 class PostController extends Controller
 {
+    public $postRepo;
+
+    public function __construct(PostInterface $postRepo){
+        $this->postRepo = $postRepo;
+    }
+
     public function index(){
         try{
-            $posts = Post::all();
+            $posts = $this->postRepo->all();
             return view('admin.posts.index', compact('posts'));
         }
         catch(\Exception $e){
@@ -47,18 +54,7 @@ class PostController extends Controller
                 return redirect()->route('Admin.AddPost')->withErrors($errors)->withInput($request->all());
             }
 
-            $post = new Post();
-
-            if(!empty($request->image)){
-                $image_url = $this->saveFile($request->image, 'images');
-                $post->image_url = $image_url;
-            }
-
-            $post->title = $request->title;
-            $post->body = $request->body;
-            $post->category_id = $request->category_id;
-            $post->save();
-
+            $post = $this->postRepo->create($request->title, $request->body, $request->category_id, $request->image);
 
             Flashy::success('Post created successfully');
             return redirect()->route('PostView', $post->id);   
@@ -96,17 +92,8 @@ class PostController extends Controller
                 return redirect()->route('Admin.EditPost', $id)->withErrors($errors)->withInput($request->all());
             }
 
-            $post = Post::find($id);
-            
-            if(!empty($request->image)){
-                $image_url = $this->saveFile($request->image, 'images');
-                $post->image_url = $image_url;
-            }
+            $post = $this->postRepo->update($id, $request->title, $request->body, $request->category_id, $request->image);
 
-            $post->title = $request->title;
-            $post->body = $request->body;
-            $post->category_id = $request->category_id;
-            $post->update();
             Flashy::success('Post updated successfully');
             return redirect()->route('PostView', $id);   
         }
@@ -118,7 +105,7 @@ class PostController extends Controller
 
     public function delete($id){
         try{
-            $post = Post::find($id)->delete();
+            $this->postRepo->delete($id);
             Flashy::success('Post deleted successfully');
             return redirect()->route('Admin.PostIndex');   
         }
@@ -126,12 +113,5 @@ class PostController extends Controller
             Flashy::error('An Error Occurred !');
             return redirect()->back();
         }
-    }
-
-    private function saveFile($file, $folder=''){
-        $file_name = $file->getClientOriginalName();
-        
-        if(Storage::disk('public')->put($folder.'/'.$file_name, file_get_contents($file)))
-            return Storage::url($folder.'/'.$file_name);
     }
 }
