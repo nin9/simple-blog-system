@@ -17,6 +17,8 @@
                 -webkit-line-clamp: 3;
                 -webkit-box-orient: vertical; 
             }
+            .avatar {width: 4rem}
+            .comment{width: 30rem}
         </style>
     </head>
     <body>

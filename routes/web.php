@@ -19,6 +19,7 @@ Route::group(['prefix' => 'posts'], function () {
     Route::get('/', 'PostController@index')->name('PostIndex');
     Route::get('/{id}', 'PostController@view')->name('PostView');
     Route::get('/category/{id}', 'PostController@indexByCategory')->name('CategoryPostIndex');
+    Route::post('/{id}/comment', 'PostController@addComment')->name('AddComment');
 });
 
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'as' => 'Admin.', 'middleware' => 'auth'], function () {
